@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="discovery_port_send">9997</integer>
+    <integer name="discovery_port_listen">9001</integer>
+    <integer name="command_port">8088</integer>
+</resources>

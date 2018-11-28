@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Navbar" parent="Widget.Design.BottomNavigationView"  xmlns:android="http://schemas.android.com/apk/res/android">
+        <!--<item name="android:color">@color/colorAccent</item>-->
+        <!--<item name="colorPrimary">@color/colorAccent</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorAccent</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    </style>
+
+    <style name="AppWidgetImage" parent="@android:style/Widget">
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="AppWidgetName">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>
