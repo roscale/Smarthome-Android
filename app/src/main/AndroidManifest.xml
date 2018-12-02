@@ -24,6 +24,9 @@
         <receiver android:name=".widgets.TogglerWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="Smarthome.TogglerWidget.UPDATE_WIDGETS"/>
+                <action android:name="Smarthome.TogglerWidget.INVALIDATE_WIDGETS"/>
+                <action android:name="Smarthome.TogglerWidget.TOGGLE_LIGHT"/>
             </intent-filter>
 
             <meta-data

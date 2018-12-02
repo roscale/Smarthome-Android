@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/widget_margin"
-                android:background="#303030">
+                android:background="@drawable/shape_widget_bg"
+                android:id="@+id/widget">
 
     <RelativeLayout
             android:layout_width="wrap_content"
@@ -12,27 +14,27 @@
             android:layout_centerVertical="true">
 
         <ImageView
-                android:layout_width="58dp"
-                android:layout_height="55dp"
-                app:srcCompat="@drawable/ic_home_black_24dp"
-                style="@style/AppWidgetImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/ic_lightbulb_on"
                 android:id="@+id/image"
                 android:layout_centerHorizontal="true"
-
-                android:layout_marginTop="0dp"
                 android:layout_alignParentTop="true"/>
 
         <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kitchen"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 style="@style/AppWidgetName"
                 android:layout_below="@+id/image"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                tools:text="Lightbulb"
+                android:textAlignment="center"
+                />
+
     </RelativeLayout>
 
 

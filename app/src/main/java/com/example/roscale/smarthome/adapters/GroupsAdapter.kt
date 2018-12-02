@@ -9,15 +9,15 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Switch
 import com.example.roscale.smarthome.R
-import kotlinx.android.synthetic.main.item_grid_rooms.view.*
+import kotlinx.android.synthetic.main.item_groups.view.*
 import org.greenrobot.eventbus.EventBus
 
-data class GridRoomsItemData(var name: String)
+data class GroupsItemData(var name: String)
 
 class GroupOn
 class AllGroupsOff
 
-class GridRoomsViewHolder(val grid_rooms: RecyclerView, itemView: View): RecyclerView.ViewHolder(itemView) {
+class GroupsViewHolder(val grid_rooms: RecyclerView, itemView: View): RecyclerView.ViewHolder(itemView) {
     fun areAllGroupsOff(): Boolean {
         for (i in 0 until grid_rooms.adapter!!.itemCount) {
             val holder = grid_rooms.findViewHolderForLayoutPosition(i)
@@ -28,7 +28,7 @@ class GridRoomsViewHolder(val grid_rooms: RecyclerView, itemView: View): Recycle
         return true
     }
 
-    fun bind(itemData: GridRoomsItemData) {
+    fun bind(itemData: GroupsItemData) {
         itemView.group_name.text = itemData.name
 
         itemView.toggle_group.setOnCheckedChangeListener { switch: CompoundButton, checked: Boolean ->
@@ -45,7 +45,7 @@ class GridRoomsViewHolder(val grid_rooms: RecyclerView, itemView: View): Recycle
     }
 }
 
-class GridRoomsAdapter(val data: List<GridRoomsItemData>) : RecyclerView.Adapter<GridRoomsViewHolder>() {
+class GroupsAdapter(val data: List<GroupsItemData>) : RecyclerView.Adapter<GroupsViewHolder>() {
     lateinit var rv: RecyclerView
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -54,12 +54,12 @@ class GridRoomsAdapter(val data: List<GridRoomsItemData>) : RecyclerView.Adapter
 
     override fun getItemCount(): Int = data.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridRoomsViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_grid_rooms, parent, false)
-        return GridRoomsViewHolder(rv, v)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupsViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_groups, parent, false)
+        return GroupsViewHolder(rv, v)
     }
 
-    override fun onBindViewHolder(holder: GridRoomsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GroupsViewHolder, position: Int) {
         val itemData = data[position]
         holder.bind(itemData)
     }

@@ -32,21 +32,21 @@ import java.net.ServerSocket
 data class Device(val ip: String, val UUID: String, val powerState: Boolean)
 
 class DiscoverDevicesThread(val context: Context, val port: Int, val callback: (Device) -> Unit) : Thread() {
-    lateinit var serverSocket: ServerSocket
+    private var serverSocket: ServerSocket? = null
 
     override fun run() {
         try {
             serverSocket = ServerSocket(port)
-            serverSocket.soTimeout = 5000
+            serverSocket?.soTimeout = 5000
 
             while (!interrupted()) {
-                val socket = serverSocket.accept()
-                val message = BufferedReader(InputStreamReader(socket.getInputStream())).readLine()
+                val socket = serverSocket?.accept()
+                val message = BufferedReader(InputStreamReader(socket?.getInputStream())).readLine()
 
                 val reader = JSONObject(message)
                 Handler(context.mainLooper).post {
                     callback(Device(
-                        socket.inetAddress.hostAddress,
+                        socket?.inetAddress!!.hostAddress,
                         reader.getString("uuid"),
                         reader.getInt("power_state") != 0))
                 }
@@ -57,7 +57,7 @@ class DiscoverDevicesThread(val context: Context, val port: Int, val callback: (
     }
 
     fun close() {
-        serverSocket.close()
+        serverSocket?.close()
         interrupt()
     }
 }
@@ -65,21 +65,17 @@ class DiscoverDevicesThread(val context: Context, val port: Int, val callback: (
 
 class AddLightsFragment : Fragment() {
 
-    lateinit var data: ArrayList<AddLightsItemData>
+    val data = arrayListOf<AddLightsItemData>()
     lateinit var discoverDevicesThread: DiscoverDevicesThread
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_lights, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        data = arrayListOf()
-
+        // Setup RecyclerView
         add_lights.adapter = AddLightsAdapter(data)
         add_lights.layoutManager = LinearLayoutManager(
             context,
@@ -88,9 +84,11 @@ class AddLightsFragment : Fragment() {
         )
         add_lights.addItemDecoration(LinearEqualSpaceItemDecoration(20))
 
+        // Start discovery thread
         val ctx = context!!
         discoverDevicesThread = DiscoverDevicesThread(context!!, resources.getInteger(R.integer.discovery_port_listen)) {
             doAsync {
+                // Add only the lights that were not added yet
                 if (AppDatabase.instance(ctx).lightDao().findByUUID(it.UUID) == null) {
                     Handler(ctx.mainLooper).post {
                         data.add(AddLightsItemData(it.ip, it.UUID, it.powerState))
@@ -103,6 +101,7 @@ class AddLightsFragment : Fragment() {
         discoverDevicesThread.start()
         doAsync { broadcastUDPMessage(resources.getInteger(R.integer.discovery_port_send), "discovery") }.execute()
 
+        // Show toast message
         Toast.makeText(context, "Searching lights...", Toast.LENGTH_SHORT).show()
         Handler().postDelayed({
             try {
@@ -112,6 +111,7 @@ class AddLightsFragment : Fragment() {
             } catch (e: java.lang.IllegalStateException) { }
         }, 5000)
 
+        // Handle the "Next" button by inserting the lights into the database
         next.setOnClickListener {
             doAsync {
                 add_lights.forEachViewHolder<AddLightsViewHolder> {
@@ -120,7 +120,7 @@ class AddLightsFragment : Fragment() {
                         AppDatabase.instance(context!!.applicationContext).lightDao().insertAll(Light(
                             null,
                             it.data.UUID,
-                            itemview.name.text.toString(),
+                            itemview.nameEditText.text.toString(),
                             it.data.ip,
                             it.data.powerState))
                     }

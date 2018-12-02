@@ -10,7 +10,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun lightDao(): LightDao
 
     companion object {
-        var initialized = false
+        private var initialized = false
         lateinit var db: AppDatabase
 
         fun instance(applicationContext: Context): AppDatabase {

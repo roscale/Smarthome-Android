@@ -1,6 +1,5 @@
 package com.example.roscale.smarthome.activities
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -28,9 +27,6 @@ class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        lateinit var activity: Activity
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

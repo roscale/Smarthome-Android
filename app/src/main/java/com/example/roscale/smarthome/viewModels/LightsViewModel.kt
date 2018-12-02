@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.roscale.smarthome.database.AppDatabase
 import com.example.roscale.smarthome.database.Light
 
+// ViewModel containing a LiveData listening to changes in the Lights table
 class LightsModel : ViewModel() {
     private var init = false
     private lateinit var lights_list: LiveData<List<Light>>

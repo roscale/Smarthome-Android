@@ -26,4 +26,16 @@ interface LightDao {
 
     @Delete
     fun delete(light: Light)
+
+    @Query("DELETE FROM Light WHERE uuid = :UUID")
+    fun deleteByUUID(UUID: String)
+
+    @Query("UPDATE Light SET power_state = :powerState WHERE uuid = :UUID")
+    fun turn(powerState: Boolean, UUID: String)
+
+    @Query("UPDATE Light SET power_state = :powerState")
+    fun turnAll(powerState: Boolean)
+
+    @Query("UPDATE Light SET name = :name WHERE uuid = :UUID")
+    fun rename(name: String, UUID: String)
 }

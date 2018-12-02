@@ -11,24 +11,20 @@ import kotlinx.android.synthetic.main.item_add_lights.view.*
 class LightNumberGenerator {
     companion object {
         private var i = 1
-
-        fun next(): Int {
-            return i++
-        }
-
-        fun reset() {
-            i = 1
-        }
+        fun next(): Int = i++
+        fun reset() { i = 1 }
     }
 }
 
+
 data class AddLightsItemData(val ip: String, val UUID: String, val powerState: Boolean)
+
 
 class AddLightsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     lateinit var data: AddLightsItemData
 
     init {
-        itemView.name.setText("Light ${LightNumberGenerator.next()}", TextView.BufferType.EDITABLE)
+        itemView.nameEditText.setText("Light ${LightNumberGenerator.next()}", TextView.BufferType.EDITABLE)
     }
 
     fun bind(data: AddLightsItemData) {
